@@ -1,0 +1,7 @@
+bases:
+- ./base
+
+#patches:
+patchesStrategicMerge:
+# Injects our custom images (ENV variable settings)
+- manager_default_images.yaml
