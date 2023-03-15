@@ -31,8 +31,9 @@ unit-tests: install-tools $(KUBEBUILDER_ASSETS) generate fmt vet manifests ## Ru
 integration-tests: install-tools $(KUBEBUILDER_ASSETS) generate fmt vet manifests ## Run integration tests
 	ginkgo -r controllers/
 
+manifests: CRDDESC_OVERRIDE=:maxDescLen=0
 manifests: install-tools ## Generate manifests e.g. CRD, RBAC etc.
-	controller-gen crd rbac:roleName=operator-role paths="./api/...;./controllers/..." output:crd:artifacts:config=config/crd/bases
+	controller-gen crd$(CRDDESC_OVERRIDE) rbac:roleName=operator-role paths="./api/...;./controllers/..." output:crd:artifacts:config=config/crd/bases
 	./hack/remove-override-descriptions.sh
 	./hack/add-notice-to-yaml.sh config/rbac/role.yaml
 	./hack/add-notice-to-yaml.sh config/crd/bases/rabbitmq.com_rabbitmqclusters.yaml
