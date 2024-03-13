@@ -100,6 +100,60 @@ type RabbitmqClusterSpec struct {
 	SecretBackend SecretBackend `json:"secretBackend,omitempty"`
 }
 
+// A duplicate of the RabbitmqClusterSpec, but with the Image fields removed for use by OpenStackControlplane
+// NOTE: we duplicate it to keep the delta/PR here lighteweight and avoid changes to tests/controllers. This
+// will need to be recopied/created if the RabbitmqClusterSpec changes.
+type RabbitmqClusterSpecCore struct {
+	// Replicas is the number of nodes in the RabbitMQ cluster. Each node is deployed as a Replica in a StatefulSet. Only 1, 3, 5 replicas clusters are tested.
+	// This value should be an odd number to ensure the resultant cluster can establish exactly one quorum of nodes
+	// in the event of a fragmenting network partition.
+	// +optional
+	// +kubebuilder:validation:Minimum:=0
+	// +kubebuilder:default:=1
+	Replicas *int32                     `json:"replicas,omitempty"`
+	Service  RabbitmqClusterServiceSpec `json:"service,omitempty"`
+	// The desired persistent storage configuration for each Pod in the cluster.
+	// +kubebuilder:default:={storage: "10Gi"}
+	Persistence RabbitmqClusterPersistenceSpec `json:"persistence,omitempty"`
+	// The desired compute resource requirements of Pods in the cluster.
+	// +kubebuilder:default:={limits: {cpu: "2000m", memory: "2Gi"}, requests: {cpu: "1000m", memory: "2Gi"}}
+	Resources *corev1.ResourceRequirements `json:"resources,omitempty"`
+	// Affinity scheduling rules to be applied on created Pods.
+	Affinity *corev1.Affinity `json:"affinity,omitempty"`
+	// Tolerations is the list of Toleration resources attached to each Pod in the RabbitmqCluster.
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
+	// Configuration options for RabbitMQ Pods created in the cluster.
+	Rabbitmq RabbitmqClusterConfigurationSpec `json:"rabbitmq,omitempty"`
+	// TLS-related configuration for the RabbitMQ cluster.
+	TLS TLSSpec `json:"tls,omitempty"`
+	// Provides the ability to override the generated manifest of several child resources.
+	Override RabbitmqClusterOverrideSpec `json:"override,omitempty"`
+	// If unset, or set to false, the cluster will run `rabbitmq-queues rebalance all` whenever the cluster is updated.
+	// Set to true to prevent the operator rebalancing queue leaders after a cluster update.
+	// Has no effect if the cluster only consists of one node.
+	// For more information, see https://www.rabbitmq.com/rabbitmq-queues.8.html#rebalance
+	SkipPostDeploySteps bool `json:"skipPostDeploySteps,omitempty"`
+	// TerminationGracePeriodSeconds is the timeout that each rabbitmqcluster pod will have to terminate gracefully.
+	// It defaults to 604800 seconds ( a week long) to ensure that the container preStop lifecycle hook can finish running.
+	// For more information, see: https://github.com/rabbitmq/cluster-operator/blob/main/docs/design/20200520-graceful-pod-termination.md
+	// +kubebuilder:validation:Minimum:=0
+	// +kubebuilder:default:=604800
+	TerminationGracePeriodSeconds *int64 `json:"terminationGracePeriodSeconds,omitempty"`
+	// DelayStartSeconds is the time the init container (`setup-container`) will sleep before terminating.
+	// This effectively delays the time between starting the Pod and starting the `rabbitmq` container.
+	// RabbitMQ relies on up-to-date DNS entries early during peer discovery.
+	// The purpose of this artificial delay is to ensure that DNS entries are up-to-date when booting RabbitMQ.
+	// For more information, see https://github.com/kubernetes/kubernetes/issues/92559
+	// If your Kubernetes DNS backend is configured with a low DNS cache value or publishes not ready addresses
+	// promptly, you can decrase this value or set it to 0.
+	// +kubebuilder:validation:Minimum:=0
+	// +kubebuilder:default:=30
+	DelayStartSeconds *int32 `json:"delayStartSeconds,omitempty"`
+	// Secret backend configuration for the RabbitmqCluster.
+	// Enables to fetch default user credentials and certificates from K8s external secret stores.
+	SecretBackend SecretBackend `json:"secretBackend,omitempty"`
+}
+
 // SecretBackend configures a single secret backend.
 // Today, only Vault exists as supported secret backend.
 // Future secret backends could be Secrets Store CSI Driver.
