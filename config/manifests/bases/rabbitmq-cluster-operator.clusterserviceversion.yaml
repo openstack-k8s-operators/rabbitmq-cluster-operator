@@ -1,0 +1,51 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+    features.operators.openshift.io/disconnected: "true"
+    features.operators.openshift.io/fips-compliant: "true"
+    features.operators.openshift.io/proxy-aware: "false"
+    features.operators.openshift.io/tls-profiles: "false"
+    features.operators.openshift.io/token-auth-aws: "false"
+    features.operators.openshift.io/token-auth-azure: "false"
+    features.operators.openshift.io/token-auth-gcp: "false"
+    operators.operatorframework.io/operator-type: non-standalone
+  name: rabbitmq-cluster-operator.v0.0.1
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: RabbitmqCluster is the Schema for the RabbitmqCluster API. Each
+        instance of this object corresponds to a single RabbitMQ cluster.
+      displayName: Rabbitmq Cluster
+      kind: RabbitmqCluster
+      name: rabbitmqclusters.rabbitmq.com
+      version: v1beta1
+  description: RabbitMQ Cluster Operator
+  displayName: RabbitMQ Cluster Operator
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: true
+    type: OwnNamespace
+  - supported: true
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - rabbitmq
+  links:
+  - name: Cluster Operator
+    url: https://github.com/rabbitmq/cluster-operator
+  maturity: alpha
+  provider:
+    name: RabbitMQ
+    url: https://rabbitmq.com
+  version: 0.0.1
