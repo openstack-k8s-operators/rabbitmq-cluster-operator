@@ -26,9 +26,6 @@ spec:
       version: v1beta1
   description: RabbitMQ Cluster Operator
   displayName: RabbitMQ Cluster Operator
-  icon:
-  - base64data: ""
-    mediatype: ""
   install:
     spec:
       deployments: null
