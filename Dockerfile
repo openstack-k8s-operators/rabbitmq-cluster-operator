@@ -1,7 +1,9 @@
 # Build the manager binary
-FROM --platform=$BUILDPLATFORM golang:1.24 AS builder
+FROM --platform=$BUILDPLATFORM registry.access.redhat.com/ubi9/go-toolset:1.24 as builder
 
 WORKDIR /workspace
+
+USER root
 
 # Dependencies are cached unless we change go.mod or go.sum
 COPY go.mod go.mod
@@ -24,27 +26,18 @@ ENV GOARCH=$TARGETARCH
 # FIPS
 ARG FIPS_MODE=off
 ENV GOFIPS140=$FIPS_MODE
+RUN CGO_ENABLED=1 GO111MODULE=on go build -a -tags 'strictfipsruntime timetzdata' -o manager main.go
 
-RUN CGO_ENABLED=0 GO111MODULE=on go build -a -tags timetzdata -o manager main.go
-
-# ---------------------------------------
-FROM alpine:latest AS etc-builder
-
-RUN echo "rabbitmq-cluster-operator:x:1000:" > /etc/group && \
-    echo "rabbitmq-cluster-operator:x:1000:1000::/home/rabbitmq-cluster-operator:/usr/sbin/nologin" > /etc/passwd
-
-RUN apk add -U --no-cache ca-certificates
-
-# ---------------------------------------
-FROM scratch
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 ARG GIT_COMMIT
 LABEL GitCommit=$GIT_COMMIT
 
 WORKDIR /
 COPY --from=builder /workspace/manager .
-COPY --from=etc-builder /etc/passwd /etc/group /etc/
-COPY --from=etc-builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+RUN echo "rabbitmq-cluster-operator:x:1000:" > /etc/group && \
+    echo "rabbitmq-cluster-operator:x:1000:1000::/home/rabbitmq-cluster-operator:/usr/sbin/nologin" > /etc/passwd
+
 
 USER 1000:1000
 
