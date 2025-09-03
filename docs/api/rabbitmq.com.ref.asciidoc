@@ -190,6 +190,7 @@ RabbitMQ-related configuration.
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -262,6 +263,7 @@ Provides the ability to override the generated manifest of several child resourc
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -280,6 +282,7 @@ The settings for the persistent storage desired for each Pod in the RabbitmqClus
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -337,6 +340,7 @@ Settable attributes for the Service resource.
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -399,6 +403,8 @@ Enables to fetch default user credentials and certificates from K8s external sec
 |===
 
 
+
+
 [id="{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterstatus"]
 ==== RabbitmqClusterStatus 
 
@@ -433,6 +439,7 @@ If not configured, K8s Secrets will be used.
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -547,6 +554,7 @@ TLSSpec allows for the configuration of TLS certificates to be used by RabbitMQ.
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
