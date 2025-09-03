@@ -1,7 +1,9 @@
 domain: rabbitmq.com
 layout:
 - go.kubebuilder.io/v3
-projectName: cluster-operator
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+projectName: rabbitmq-cluster-operator
 repo: github.com/rabbitmq/cluster-operator
 resources:
 - api:
@@ -9,7 +11,6 @@ resources:
     namespaced: true
   controller: true
   domain: rabbitmq.com
-  group: rabbitmq.com
   kind: RabbitmqCluster
   path: github.com/rabbitmq/cluster-operator/api/v1beta1
   version: v1beta1
