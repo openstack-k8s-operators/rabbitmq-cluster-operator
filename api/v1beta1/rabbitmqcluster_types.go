@@ -20,6 +20,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	k8sresource "k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 const DisableDefaultTopologySpreadAnnotation = "rabbitmq.com/disable-default-topology-spread-constraints"
@@ -106,6 +107,13 @@ type RabbitmqClusterSpec struct {
 	SecretBackend SecretBackend `json:"secretBackend,omitempty"`
 }
 
+type OverrideTrimmed struct {
+	// Override configuration for the RabbitMQ StatefulSet.
+	StatefulSet *runtime.RawExtension `json:"statefulSet,omitempty"`
+	// Override configuration for the Service created to serve traffic to the cluster.
+	Service *Service `json:"service,omitempty"`
+}
+
 // A duplicate of the RabbitmqClusterSpec, but with the Image fields removed for use by OpenStackControlplane
 // NOTE: we duplicate it to keep the delta/PR here lighteweight and avoid changes to tests/controllers. This
 // will need to be recopied/created if the RabbitmqClusterSpec changes.
@@ -133,7 +141,7 @@ type RabbitmqClusterSpecCore struct {
 	// TLS-related configuration for the RabbitMQ cluster.
 	TLS TLSSpec `json:"tls,omitempty"`
 	// Provides the ability to override the generated manifest of several child resources.
-	Override RabbitmqClusterOverrideSpec `json:"override,omitempty"`
+	Override *OverrideTrimmed `json:"override,omitempty"`
 	// If unset, or set to false, the cluster will run `rabbitmq-queues rebalance all` whenever the cluster is updated.
 	// Set to true to prevent the operator rebalancing queue leaders after a cluster update.
 	// Has no effect if the cluster only consists of one node.
