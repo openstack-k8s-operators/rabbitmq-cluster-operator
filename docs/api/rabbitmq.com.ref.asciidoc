@@ -86,6 +86,24 @@ More info: http://kubernetes.io/docs/user-guide/annotations
 |===
 
 
+[id="{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-overridetrimmed"]
+==== OverrideTrimmed 
+
+
+
+.Appears In:
+****
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
+****
+
+[cols="25a,75a", options="header"]
+|===
+| Field | Description
+| *`statefulSet`* __link:https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#rawextension-runtime-pkg[$$RawExtension$$]__ | Override configuration for the RabbitMQ StatefulSet.
+| *`service`* __xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-service[$$Service$$]__ | Override configuration for the Service created to serve traffic to the cluster.
+|===
+
+
 [id="{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-persistentvolumeclaim"]
 ==== PersistentVolumeClaim 
 
@@ -263,7 +281,6 @@ Provides the ability to override the generated manifest of several child resourc
 .Appears In:
 ****
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspec[$$RabbitmqClusterSpec$$]
-- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusterspeccore[$$RabbitmqClusterSpecCore$$]
 ****
 
 [cols="25a,75a", options="header"]
@@ -458,6 +475,7 @@ Allows for the manifest of the created Service to be overwritten with custom con
 
 .Appears In:
 ****
+- xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-overridetrimmed[$$OverrideTrimmed$$]
 - xref:{anchor_prefix}-github-com-rabbitmq-cluster-operator-v2-api-v1beta1-rabbitmqclusteroverridespec[$$RabbitmqClusterOverrideSpec$$]
 ****
 
